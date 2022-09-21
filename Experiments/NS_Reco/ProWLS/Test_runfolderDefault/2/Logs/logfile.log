@@ -5,9 +5,20 @@ Reward Amplitudes: [4.17022005e-01 7.20324493e-01 1.14374817e-04 3.02332573e-01
 Module path:  Src.Algorithms.ProWLS ProWLS
 Dynamically loaded from:  <class 'Src.Algorithms.ProWLS.ProWLS'>
 =====Configurations=====
- Namespace(NN_basis_dim='32', Policy_basis_dim='32', actor_lr=0.01, algo_name='ProWLS', base=0, batch_size=1000, buffer_size=1000, debug=True, delta=5, entropy_lambda=0.1, env_name='NS_Reco', experiment='Test_runfolder', extrapolator_basis='Poly', folder_suffix='Default', fourier_coupled=True, fourier_k=7, fourier_order=-1, gamma=0.99, gauss_std=1.5, gpu=0, hyper='default', importance_clip=10.0, inc=1, log_output='term_file', max_episodes=3000, max_inner=150, max_steps=500, optim='rmsprop', oracle=-1000, raw_basis=True, restore=False, save_count=10, save_model=True, seed=2, speed=2, state_lr=0.001, summary=True, swarm=False, timestamp='9|20|16:9:50')
+ Namespace(NN_basis_dim='32', Policy_basis_dim='32', actor_lr=0.01, algo_name='ProWLS', base=0, batch_size=1000, buffer_size=1000, debug=True, delta=5, entropy_lambda=0.1, env_name='NS_Reco', experiment='Test_runfolder', extrapolator_basis='Poly', folder_suffix='Default', fourier_coupled=True, fourier_k=7, fourier_order=-1, gamma=0.99, gauss_std=1.5, gpu=0, hyper='default', importance_clip=10.0, inc=1, log_output='term_file', max_episodes=3000, max_inner=150, max_steps=500, optim='rmsprop', oracle=-1000, raw_basis=True, restore=False, save_count=10, save_model=True, seed=2, speed=2, state_lr=0.001, summary=True, swarm=False, timestamp='9|21|14:22:36')
 Actions space: 5 :: State space: 1
 State Low: tensor([0.]) :: State High: tensor([1.])
 State features:  [('dummy_param', torch.Size([1]))]
 Policy:  [('fc1.weight', torch.Size([5, 1])), ('fc1.bias', torch.Size([5]))]
-0 :: Rewards -0.012 :: steps: 0.00 :: Time: 0.000(0.00066/step) :: Entropy : 0.000 :: Grads : [[], []]
+0 :: Rewards -0.012 :: steps: 0.00 :: Time: 0.000(0.00139/step) :: Entropy : 0.000 :: Grads : [[], []]
+300 :: Rewards 70.988 :: steps: 1.00 :: Time: 0.022(0.02246/step) :: Entropy : 0.000 :: Grads : [[0.7128712, 0.7128712], []]
+600 :: Rewards 116.181 :: steps: 1.00 :: Time: 0.053(0.05263/step) :: Entropy : 0.000 :: Grads : [[1.3555998, 1.3555998], []]
+900 :: Rewards 67.831 :: steps: 1.00 :: Time: 0.118(0.11839/step) :: Entropy : 0.000 :: Grads : [[15.15269, 15.15269], []]
+1200 :: Rewards 23.514 :: steps: 1.00 :: Time: 0.188(0.18759/step) :: Entropy : 0.000 :: Grads : [[0.026659686, 0.026659686], []]
+1500 :: Rewards 73.626 :: steps: 1.00 :: Time: 0.191(0.19140/step) :: Entropy : 0.000 :: Grads : [[0.4847483, 0.4847483], []]
+1800 :: Rewards 56.704 :: steps: 1.00 :: Time: 0.201(0.20125/step) :: Entropy : 0.000 :: Grads : [[0.026902866, 0.026902866], []]
+2100 :: Rewards 51.769 :: steps: 1.00 :: Time: 0.203(0.20295/step) :: Entropy : 0.000 :: Grads : [[0.08138036, 0.08138036], []]
+2400 :: Rewards 25.824 :: steps: 1.00 :: Time: 0.202(0.20204/step) :: Entropy : 0.000 :: Grads : [[0.028481716, 0.028481716], []]
+2700 :: Rewards 34.575 :: steps: 1.00 :: Time: 0.201(0.20134/step) :: Entropy : 0.000 :: Grads : [[0.025749829, 0.025749829], []]
+2999 :: Rewards 75.191 :: steps: 1.00 :: Time: 0.200(0.20097/step) :: Entropy : 0.000 :: Grads : [[2.4912198, 2.4912198], []]
+Total time taken: 475.435439825058

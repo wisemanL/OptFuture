@@ -31,6 +31,10 @@ class Solver:
         return_history = []
         true_rewards = []
         action_prob = []
+        reward_gap =
+
+        action_prob_perepisode = []
+
 
         ckpt = self.config.save_after
         rm_history, regret, rm, start_ep = [], 0, 0, 0
@@ -53,6 +57,7 @@ class Solver:
             while not done:
                 # self.env.render(mode='human')
                 action, extra_info, dist = self.model.get_action(state)
+                # dist : sum of all actions' probability
                 new_state, reward, done, info = self.env.step(action=action)
                 self.model.update(state, action, extra_info, reward, new_state, done)
                 state = new_state
@@ -63,6 +68,8 @@ class Solver:
                 step += 1
                 if step >= self.config.max_steps:
                     break
+            if self.config.debug and self.config.env_name == 'NS_Reco':
+                action_prob_perepisode.append(dist)
 
             # track inter-episode progress
             # returns.append(total_r)
@@ -90,15 +97,25 @@ class Solver:
 
             fig1, fig2 = plt.figure(figsize=(8, 6)), plt.figure(figsize=(8, 6))
             ax1, ax2 = fig1.add_subplot(1, 1, 1), fig2.add_subplot(1, 1, 1)
+            fig3 = plt.figure(figsize=(8, 6))
+            ax3 = fig3.add_subplot(1, 1, 1)
 
             action_prob = np.array(action_prob).T
             true_rewards = np.array(true_rewards).T
+            action_prob_perepisode = np.array(action_prob_perepisode).T
 
             for idx in range(len(dist)):
                 ax1.plot(action_prob[idx])
+                ax1.title.set_text("action_prob")
                 ax2.plot(true_rewards[idx])
+                ax2.title.set_text("true_rewards")
+                ax3.plot(action_prob_perepisode[idx])
+                ax3.title.set_text("action_prob_fullEp")
 
             plt.show()
+            fig1.savefig(self.config.paths['results'] + "action_prob.png")
+            fig2.savefig(self.config.paths['results'] + "true_rewards.png")
+            fig3.savefig(self.config.paths['results'] + "action_prob_fullEp.png")
 
 
 # @profile

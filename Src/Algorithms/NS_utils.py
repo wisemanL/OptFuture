@@ -109,6 +109,7 @@ class Insulin_Gaussian(Policy):
         # Pytorch doesn't have a direct function for computing prob, only log_prob.
         # Hence going the round-about way.
         action, logp, dist = self.get_action_w_logprob_dist(state, explore)
+        # the action prob coul be another cunselro fo the inner probability
         prob = np.exp(logp)
 
         return action, prob, dist
@@ -116,7 +117,6 @@ class Insulin_Gaussian(Policy):
     def get_prob(self, state, action):
         logp, dist = self.get_logprob_dist(state, action)
         return torch.exp(logp), dist                                                            # B, BxAx(dist)
-
 
     def get_action_w_logprob_dist(self, state, explore=0):
         mean, std = self.forward(state)
