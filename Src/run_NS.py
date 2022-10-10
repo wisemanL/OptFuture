@@ -31,7 +31,6 @@ class Solver:
         return_history = []
         true_rewards = []
         action_prob = []
-        reward_gap =
 
         action_prob_perepisode = []
 

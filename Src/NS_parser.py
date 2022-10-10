@@ -51,16 +51,18 @@ class Parser(object):
     def get_parser(self):
         return self.parser
 
+
     def Env_n_Agent_args(self, parser):
         # parser.add_argument("--algo_name", default='OFPG', help="Learning algorithm")
         # parser.add_argument("--algo_name", default='ONPG', help="Learning algorithm")
         parser.add_argument("--algo_name", default='ProOLS', help="Learning algorithm")
+        # parser.add_argument("--algo_name", default='ProRNN', help="Learning algorithm")
         # parser.add_argument("--algo_name", default='ProWLS', help="Learning algorithm")
         # parser.add_argument("--env_name", default='NS_SimGlucose-v0', help="Environment to run the code")
-        parser.add_argument("--env_name", default='NS_Reco', help="Environment to run the code")
-        # parser.add_argument("--env_name", default='NS_Reacher', help="Environment to run the code")
+        # parser.add_argument("--env_name", default='NS_Reco', help="Environment to run the code")
+        parser.add_argument("--env_name", default='NS_Reacher', help="Environment to run the code")
 
-        parser.add_argument("--max_episodes", default=int(3000), help="maximum number of episodes (75000)", type=int)
+        parser.add_argument("--max_episodes", default=int(1000), help="maximum number of episodes (75000)", type=int)
         parser.add_argument("--max_steps", default=500, help="maximum steps per episode (500)", type=int)
 
     def NS(self, parser):
