@@ -109,7 +109,7 @@ class ProVAR(Agent):
             ########################################
             ### log_pi_return : equation (5)-(b) ###
             ########################################
-            log_pi_return = torch.sum(log_pi * returns, dim=-1, keepdim=True)   # sum(BxH * B(=epsidoe)xH(=timestep per epdisode)) -> Bx1
+            log_pi_return = torch.sum(log_pi * returns, dim=-1, keepdim=True)   # sum(BxH * B(=episode)xH(=timestep per epdisode)) -> Bx1
 
             tmp_memory_Jgradient = None
 
