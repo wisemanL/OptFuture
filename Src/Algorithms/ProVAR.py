@@ -6,29 +6,32 @@ from Src.Utils import Basis, utils
 from Src.Algorithms import NS_utils
 from Src.Algorithms.Extrapolator import OLS
 
+
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.tsa.api import VAR
+
 """
 
 """
-class ProOLS(Agent):
+class ProVAR(Agent):
     def __init__(self, config):
-        super(ProOLS, self).__init__(config)
+        super(ProVAR, self).__init__(config)
         # Get state features and instances for Actor and Value function
         self.state_features = Basis.get_Basis(config=config)
         self.actor, self.atype, self.action_size = NS_utils.get_Policy(state_dim=self.state_features.feature_dim,
                                                                        config=config)
         self.memory = utils.TrajectoryBuffer(buffer_size=config.buffer_size, state_dim=self.state_dim,
                                              action_dim=self.action_size, atype=self.atype, config=config, dist_dim=1)
-        self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
-                                k=config.fourier_k)
-
-
+        # self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
+        #                         k=config.fourier_k)
 
         self.modules = [('actor', self.actor), ('state_features', self.state_features)]
         self.counter = 0
         self.init()
 
     def reset(self):
-        super(ProOLS, self).reset()
+        super(ProVAR, self).reset()
         self.memory.next()
         self.counter += 1
         self.gamma_t = 1
@@ -61,7 +64,7 @@ class ProOLS(Agent):
         batch_size = self.memory.size if self.memory.size < self.config.batch_size else self.config.batch_size
         # batch size increases
         # Compute and cache the partial derivatives w.r.t to each of the episodes
-        self.extrapolator.update(self.memory.size, self.config.delta)
+        # self.extrapolator.update(self.memory.size, self.config.delta)
 
         # Inner optimization loop
         # Note: Works best with large number of iterations with small step-sizes
@@ -69,10 +72,9 @@ class ProOLS(Agent):
             ################################################
             ### Algorithm1 step3 : compute PDIS gradient ###
             ###############################################
-            id, s, a, beta, r, mask = self.memory.sample(batch_size)            # B, BxHxD, BxHxA, BxH, BxH, BxH
-            # B : episode number
-            # H : step number per episode
-            # D : dimenstion
+            # id, s, a, beta, r, mask = self.memory.sample(batch_size)            # B, BxHxD, BxHxA, BxH, BxH, BxH
+            id, s, a, beta, r, mask = self.memory.sample_sequence(batch_size)
+
             B, H, D = s.shape
             _, _, A = a.shape
 
@@ -88,8 +90,6 @@ class ProOLS(Agent):
             rho = (pi_a / beta).detach()                                        # BxH / BxH -> BxH
 
             # save pi_a for each timestep
-
-
 
             # Forward multiply all the rho to get probability of trajectory
             for i in range(1, H):
@@ -109,40 +109,73 @@ class ProOLS(Agent):
             ########################################
             ### log_pi_return : equation (5)-(b) ###
             ########################################
-            log_pi_return = torch.sum(log_pi * returns, dim=-1, keepdim=True)   # sum(BxH * BxH) -> Bx1
+            log_pi_return = torch.sum(log_pi * returns, dim=-1, keepdim=True)   # sum(BxH * B(=epsidoe)xH(=timestep per epdisode)) -> Bx1
 
-            # Get the Extrapolator gradients w.r.t Off-policy terms
-            # Using the formula for the full derivative, we can compute this first part directly
-            # to save compute time.
+            tmp_memory_Jgradient = None
+
+
+            """"
+            thea_1 -> 30 epsidoe J_1(t_1) ... J_30(t_1) => J_31(t_1) => thtea_2
+            theta_2 -> for new epsiode, we get 30 epdisode  => J_1(t_2) ,,,, J_30(t_2) : Is betweeen env policy and current theta 
+            """
+
+
+            ## theta_k
+            for idx in range(B-10,B) : # idx episode # tyr later
+                one_hot = torch.nn.functional.one_hot(torch.tensor([idx]), num_classes=B).to(torch.float32)
+                log_pi_return_episode = torch.mm(one_hot, log_pi_return)
+                log_pi_return_episode.backward(retain_graph=True)
+                original_shape_weight, original_shape_bais = self.actor.fc1.weight.grad.shape, self.actor.fc1.bias.grad.shape
+                J_gradient = torch.unsqueeze(
+                    torch.cat((torch.reshape(self.actor.fc1.weight.grad, (-1,)), torch.reshape(self.actor.fc1.bias.grad, (-1,)))),
+                    dim=0
+                )
+                if idx == 0 :
+                    tmp_memory_Jgradient = J_gradient
+                else :
+                    tmp_memory_Jgradient = torch.cat((tmp_memory_Jgradient,J_gradient),dim=0)
+
+            shape_list = [original_shape_weight, original_shape_bais]
+
             ####################################################################################################
             ### del_extrapolator: equation (5)-(a)                                                           ###
             ### note : the function " derivatives" already considers forcasted future J_{k+1},..,J_{k+delta}  ##
             ####################################################################################################
-            del_extrapolator = torch.tensor(self.extrapolator.derivatives(id), dtype=float32)  # Bx1
+            # del_extrapolator = torch.tensor(self.extrapolator.derivatives(id), dtype=float32)  # Bx1
 
             ## exchange this log_pi_return with autoregression function ##
+            ## get [j_{k+1}/theta_i] based on {j_{k}/del theta_i,..., j_{k}/theta_i}
+            # VAR took [length,dimension] data as input
+            # print(tmp_memory_Jgradient.shape)
+            data_input = tmp_memory_Jgradient.numpy() #(length_size, gradient_dimension)
+
+            model = VAR(data_input)
+            results = model.fit(1)
+            lag_order = results.k_ar
+            forecast_result = results.forecast(data_input[-lag_order:,], lag_order)
+            forecast_result = torch.from_numpy(forecast_result).to(torch.float32)
+            # set forcast_result as the new gradient
 
 
             ## Compute the final loss ##
             ############################
             ### loss : equation (5) ####
             ############################
-            loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
-            
+            # loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
             ########################################################
             ### Algorithm1 step4-2 : add entropy regularier term ###
             ########################################################
 
             # Discourage very deterministic policies.
-            if self.config.entropy_lambda > 0:
-                if self.config.cont_actions:
-                    entropy = torch.sum(dist_all.entropy().view(B, H, -1).sum(dim=-1) * mask) / torch.sum(mask)  # (BxH)xA -> BxH
-                else:
-                    log_pi_all = dist_all.view(B, H, -1)
-                    pi_all = torch.exp(log_pi_all)                                      # (BxH)xA -> BxHxA
-                    entropy = torch.sum(torch.sum(pi_all * log_pi_all, dim=-1) * mask) / torch.sum(mask)
-
-                loss = loss + self.config.entropy_lambda * entropy
+            # if self.config.entropy_lambda > 0:
+            #     if self.config.cont_actions:
+            #         entropy = torch.sum(dist_all.entropy().view(B, H, -1).sum(dim=-1) * mask) / torch.sum(mask)  # (BxH)xA -> BxH
+            #     else:
+            #         log_pi_all = dist_all.view(B, H, -1)
+            #         pi_all = torch.exp(log_pi_all)                                      # (BxH)xA -> BxHxA
+            #         entropy = torch.sum(torch.sum(pi_all * log_pi_all, dim=-1) * mask) / torch.sum(mask)
+            #
+            #     loss = loss + self.config.entropy_lambda * entropy
 
             # Compute the total derivative and update the parameters.
 
@@ -150,6 +183,6 @@ class ProOLS(Agent):
             ### Algorithm1 step 5 : update parameter ###
             ############################################
 
-            self.step(loss)
+            self.step_manuallyChangeGradient(forecast_result,shape_list)
 
-        print(1)
+

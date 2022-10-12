@@ -281,6 +281,7 @@ class TrajectoryBuffer:
 
         self.s = torch.zeros((buffer_size, max_horizon, state_dim), dtype=stype, requires_grad=False, device=config.device)
         self.a = torch.zeros((buffer_size, max_horizon, action_dim), dtype=atype, requires_grad=False, device=config.device)
+        self.pi_a = torch.ones((1000,buffer_size, max_horizon), dtype=float32, requires_grad=False, device=config.device)
         self.beta = torch.ones((buffer_size, max_horizon), dtype=float32, requires_grad=False, device=config.device)
         self.mask = torch.zeros((buffer_size, max_horizon), dtype=float32, requires_grad=False, device=config.device)
         self.r = torch.zeros((buffer_size, max_horizon), dtype=float32, requires_grad=False, device=config.device)
@@ -355,6 +356,11 @@ class TrajectoryBuffer:
     def sample(self, batch_size):
         count = min(batch_size, self.valid_len)
         return self._get(np.random.choice(self.valid_len, count))
+
+    def sample_sequence(self,batch_size):
+        count = min(batch_size, self.valid_len)
+        past_refer_length = np.random.randint(3,count)
+        return self._get(np.arange(count-past_refer_length, count, 1, dtype=int))
 
     def get_all(self):
         return self._get(np.arange(self.valid_len))

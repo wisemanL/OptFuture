@@ -6,29 +6,32 @@ from Src.Utils import Basis, utils
 from Src.Algorithms import NS_utils
 from Src.Algorithms.Extrapolator import OLS
 
+
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.tsa.api import VAR
+
 """
 
 """
-class ProOLS(Agent):
+class ProVAR_Jinput(Agent):
     def __init__(self, config):
-        super(ProOLS, self).__init__(config)
+        super(ProVAR_Jinput, self).__init__(config)
         # Get state features and instances for Actor and Value function
         self.state_features = Basis.get_Basis(config=config)
         self.actor, self.atype, self.action_size = NS_utils.get_Policy(state_dim=self.state_features.feature_dim,
                                                                        config=config)
         self.memory = utils.TrajectoryBuffer(buffer_size=config.buffer_size, state_dim=self.state_dim,
                                              action_dim=self.action_size, atype=self.atype, config=config, dist_dim=1)
-        self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
-                                k=config.fourier_k)
-
-
+        # self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
+        #                         k=config.fourier_k)
 
         self.modules = [('actor', self.actor), ('state_features', self.state_features)]
         self.counter = 0
         self.init()
 
     def reset(self):
-        super(ProOLS, self).reset()
+        super(ProVAR_Jinput, self).reset()
         self.memory.next()
         self.counter += 1
         self.gamma_t = 1
@@ -61,18 +64,18 @@ class ProOLS(Agent):
         batch_size = self.memory.size if self.memory.size < self.config.batch_size else self.config.batch_size
         # batch size increases
         # Compute and cache the partial derivatives w.r.t to each of the episodes
-        self.extrapolator.update(self.memory.size, self.config.delta)
+        # self.extrapolator.update(self.memory.size, self.config.delta)
 
         # Inner optimization loop
         # Note: Works best with large number of iterations with small step-sizes
         for iter in range(self.config.max_inner):
+
             ################################################
             ### Algorithm1 step3 : compute PDIS gradient ###
             ###############################################
-            id, s, a, beta, r, mask = self.memory.sample(batch_size)            # B, BxHxD, BxHxA, BxH, BxH, BxH
-            # B : episode number
-            # H : step number per episode
-            # D : dimenstion
+            # id, s, a, beta, r, mask = self.memory.sample(batch_size)            # B, BxHxD, BxHxA, BxH, BxH, BxH
+            id, s, a, beta, r, mask = self.memory.sample_sequence(batch_size)
+
             B, H, D = s.shape
             _, _, A = a.shape
 
@@ -88,8 +91,6 @@ class ProOLS(Agent):
             rho = (pi_a / beta).detach()                                        # BxH / BxH -> BxH
 
             # save pi_a for each timestep
-
-
 
             # Forward multiply all the rho to get probability of trajectory
             for i in range(1, H):
@@ -114,21 +115,26 @@ class ProOLS(Agent):
             # Get the Extrapolator gradients w.r.t Off-policy terms
             # Using the formula for the full derivative, we can compute this first part directly
             # to save compute time.
-            ####################################################################################################
-            ### del_extrapolator: equation (5)-(a)                                                           ###
-            ### note : the function " derivatives" already considers forcasted future J_{k+1},..,J_{k+delta}  ##
-            ####################################################################################################
-            del_extrapolator = torch.tensor(self.extrapolator.derivatives(id), dtype=float32)  # Bx1
+            #get the length of the tensor
 
-            ## exchange this log_pi_return with autoregression function ##
+
+            data_input = log_pi_return
+
+            model = VAR(data_input)
+            results = model.fit(1)
+            lag_order = results.k_ar
+            forecast_result = results.forecast(data_input[-lag_order:,], lag_order)
+            forecast_result = torch.from_numpy(forecast_result).to(torch.float32)
+
+            loss = torch.sum(forecast_result)
+            # set forcast_result as the new gradient
 
 
             ## Compute the final loss ##
             ############################
             ### loss : equation (5) ####
             ############################
-            loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
-            
+            # loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
             ########################################################
             ### Algorithm1 step4-2 : add entropy regularier term ###
             ########################################################
@@ -152,4 +158,4 @@ class ProOLS(Agent):
 
             self.step(loss)
 
-        print(1)
+

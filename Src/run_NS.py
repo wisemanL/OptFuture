@@ -47,7 +47,7 @@ class Solver:
         t0 = time()
         for episode in range(start_ep, self.config.max_episodes):
             # Reset both environment and model before a new episode
-
+            print(episode)
             state = self.env.reset()
             self.model.reset()
 

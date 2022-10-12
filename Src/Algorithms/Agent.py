@@ -55,11 +55,32 @@ class Agent:
         except ValueError as error:
             print("Loading failed: ", error)
 
-    def step(self, loss, clip_norm=False):
+
+    def step_manuallyChangeGradient(self, gradient_J_next,shape_list,clip_norm=False):
         self.clear_gradients()
-        loss.backward()
+        ##### 1. sum over dim =0
+        gradient_J_next_sum = torch.sum(gradient_J_next,dim=0)
+
+        ### change grident maually ###
+        weight_shape, bais_shape = shape_list
+        self.actor.fc1.weight.grad = torch.reshape(gradient_J_next_sum[:weight_shape[0]*weight_shape[1]],weight_shape)
+        self.actor.fc1.weight.bias = torch.reshape(gradient_J_next_sum[weight_shape[0]*weight_shape[1]:],bais_shape)
+
+
         for _, module in self.modules:
             module.step(clip_norm)
+        print(self.actor.fc1.weight.grad)
+
+
+    def step(self, loss, clip_norm=False):
+        self.clear_gradients()
+
+        loss.backward()
+
+        for _, module in self.modules:
+            module.step(clip_norm)
+        # print(self.actor.fc1.weight.grad)
+
 
     def reset(self):
         for _, module in self.modules:

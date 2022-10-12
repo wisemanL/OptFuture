@@ -2,7 +2,7 @@
 NN_basis_dim: '32'
 Policy_basis_dim: '32'
 actor_lr: 0.01
-algo_name: ProOLS
+algo_name: ProVAR_Jinput
 base: 0
 batch_size: 1000
 buffer_size: 1000
@@ -37,4 +37,4 @@ speed: 2
 state_lr: 0.001
 summary: true
 swarm: false
-timestamp: 10|11|18:7:0
+timestamp: 10|11|15:0:10
