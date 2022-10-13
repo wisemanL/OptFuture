@@ -69,6 +69,8 @@ class ProVAR(Agent):
         # Inner optimization loop
         # Note: Works best with large number of iterations with small step-sizes
         for iter in range(self.config.max_inner):
+            if iter >0 :
+                break
             ################################################
             ### Algorithm1 step3 : compute PDIS gradient ###
             ###############################################
@@ -121,7 +123,7 @@ class ProVAR(Agent):
 
 
             ## theta_k
-            for idx in range(B-10,B) : # idx episode # tyr later
+            for idx in range(B) : # idx episode # tyr later
                 one_hot = torch.nn.functional.one_hot(torch.tensor([idx]), num_classes=B).to(torch.float32)
                 log_pi_return_episode = torch.mm(one_hot, log_pi_return)
                 log_pi_return_episode.backward(retain_graph=True)
@@ -150,9 +152,8 @@ class ProVAR(Agent):
             data_input = tmp_memory_Jgradient.numpy() #(length_size, gradient_dimension)
 
             model = VAR(data_input)
-            results = model.fit(1)
-            lag_order = results.k_ar
-            forecast_result = results.forecast(data_input[-lag_order:,], lag_order)
+            results = model.fit(7)
+            forecast_result = results.forecast(data_input, steps=1)
             forecast_result = torch.from_numpy(forecast_result).to(torch.float32)
             # set forcast_result as the new gradient
 

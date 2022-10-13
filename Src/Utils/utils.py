@@ -359,8 +359,9 @@ class TrajectoryBuffer:
 
     def sample_sequence(self,batch_size):
         count = min(batch_size, self.valid_len)
-        past_refer_length = np.random.randint(3,count)
-        return self._get(np.arange(count-past_refer_length, count, 1, dtype=int))
+        #past_refer_length = np.random.randint(3,count)
+        #return self._get(np.arange(count-past_refer_length, count, 1, dtype=int))
+        return self._get(np.arange(1,count, 1, dtype=int))
 
     def get_all(self):
         return self._get(np.arange(self.valid_len))

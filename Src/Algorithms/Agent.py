@@ -69,7 +69,7 @@ class Agent:
 
         for _, module in self.modules:
             module.step(clip_norm)
-        print(self.actor.fc1.weight.grad)
+        # print(self.actor.fc1.weight.grad)
 
 
     def step(self, loss, clip_norm=False):

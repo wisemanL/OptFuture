@@ -14,7 +14,7 @@ experiment: Test_runfolder
 extrapolator_basis: Poly
 folder_suffix: Default
 fourier_coupled: true
-fourier_k: 4
+fourier_k: 8
 fourier_order: -1
 gamma: 0.99
 gauss_std: 1.5
@@ -37,4 +37,4 @@ speed: 2
 state_lr: 0.001
 summary: true
 swarm: false
-timestamp: 10|11|18:7:0
+timestamp: 10|12|11:47:5
