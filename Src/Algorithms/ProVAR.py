@@ -23,8 +23,8 @@ class ProVAR(Agent):
                                                                        config=config)
         self.memory = utils.TrajectoryBuffer(buffer_size=config.buffer_size, state_dim=self.state_dim,
                                              action_dim=self.action_size, atype=self.atype, config=config, dist_dim=1)
-        # self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
-        #                         k=config.fourier_k)
+        self.extrapolator = OLS(max_len=config.buffer_size, delta=config.delta, basis_type=config.extrapolator_basis,
+                                k=config.fourier_k)
 
         self.modules = [('actor', self.actor), ('state_features', self.state_features)]
         self.counter = 0
@@ -115,12 +115,10 @@ class ProVAR(Agent):
 
             tmp_memory_Jgradient = None
 
-
             """"
             thea_1 -> 30 epsidoe J_1(t_1) ... J_30(t_1) => J_31(t_1) => thtea_2
             theta_2 -> for new epsiode, we get 30 epdisode  => J_1(t_2) ,,,, J_30(t_2) : Is betweeen env policy and current theta 
             """
-
 
             ## theta_k
             for idx in range(B) : # idx episode # tyr later
@@ -143,7 +141,7 @@ class ProVAR(Agent):
             ### del_extrapolator: equation (5)-(a)                                                           ###
             ### note : the function " derivatives" already considers forcasted future J_{k+1},..,J_{k+delta}  ##
             ####################################################################################################
-            # del_extrapolator = torch.tensor(self.extrapolator.derivatives(id), dtype=float32)  # Bx1
+            del_extrapolator = torch.tensor(self.extrapolator.derivatives(id), dtype=float32)  # Bx1
 
             ## exchange this log_pi_return with autoregression function ##
             ## get [j_{k+1}/theta_i] based on {j_{k}/del theta_i,..., j_{k}/theta_i}
@@ -152,17 +150,20 @@ class ProVAR(Agent):
             data_input = tmp_memory_Jgradient.numpy() #(length_size, gradient_dimension)
 
             model = VAR(data_input)
-            results = model.fit(7)
+            results = model.fit(5)
             forecast_result = results.forecast(data_input, steps=1)
             forecast_result = torch.from_numpy(forecast_result).to(torch.float32)
             # set forcast_result as the new gradient
+
+            ##########
+            J_next_derivative = torch.sum(del_extrapolator * tmp_memory_Jgradient,dim=0,keepdim=True)
 
 
             ## Compute the final loss ##
             ############################
             ### loss : equation (5) ####
             ############################
-            # loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
+            loss += - 1.0 * torch.sum(del_extrapolator * log_pi_return)              # sum(Bx1 * Bx1) -> 1
             ########################################################
             ### Algorithm1 step4-2 : add entropy regularier term ###
             ########################################################
@@ -185,5 +186,6 @@ class ProVAR(Agent):
             ############################################
 
             self.step_manuallyChangeGradient(forecast_result,shape_list)
+            # self.step(loss)
 
 

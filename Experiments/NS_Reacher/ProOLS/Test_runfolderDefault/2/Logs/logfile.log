@@ -3,18 +3,165 @@ Dynamically loaded from:  <class 'Environments.NS_Reacher.NS_Reacher'>
 Module path:  Src.Algorithms.ProOLS ProOLS
 Dynamically loaded from:  <class 'Src.Algorithms.ProOLS.ProOLS'>
 =====Configurations=====
- Namespace(NN_basis_dim='32', Policy_basis_dim='32', actor_lr=0.01, algo_name='ProOLS', base=0, batch_size=1000, buffer_size=1000, debug=True, delta=1, entropy_lambda=0.1, env_name='NS_Reacher', experiment='Test_runfolder', extrapolator_basis='Poly', folder_suffix='Default', fourier_coupled=True, fourier_k=8, fourier_order=-1, gamma=0.99, gauss_std=1.5, gpu=0, hyper='default', importance_clip=10.0, inc=1, log_output='term_file', max_episodes=1000, max_inner=150, max_steps=500, optim='rmsprop', oracle=-1000, raw_basis=True, restore=False, save_count=10, save_model=True, seed=2, speed=2, state_lr=0.001, summary=True, swarm=False, timestamp='10|12|11:47:5')
+ Namespace(NN_basis_dim='32', Policy_basis_dim='32', actor_lr=0.01, algo_name='ProOLS', base=0, batch_size=1000, buffer_size=1000, debug=True, delta=1, entropy_lambda=0.1, env_name='NS_Reacher', experiment='Test_runfolder', extrapolator_basis='Poly', folder_suffix='Default', fourier_coupled=True, fourier_k=10, fourier_order=-1, gamma=0.99, gauss_std=1.5, gpu=0, hyper='default', importance_clip=10.0, inc=1, log_output='term_file', max_episodes=1000, max_inner=150, max_steps=500, optim='rmsprop', oracle=-1000, raw_basis=True, restore=False, save_count=10, save_model=True, seed=2, speed=2, state_lr=0.001, summary=True, swarm=False, timestamp='10|13|14:21:35')
 Actions space: 4 :: State space: 2
 State Low: tensor([0., 0.]) :: State High: tensor([1., 1.])
 State features:  [('dummy_param', torch.Size([1]))]
 Policy:  [('fc1.weight', torch.Size([4, 2])), ('fc1.bias', torch.Size([4]))]
-0
-0 :: Rewards -6.000 :: steps: 0.13 :: Time: 0.000(0.00068/step) :: Entropy : 0.000 :: Grads : [[], []]
-1
-2
-3
-4
-5
-6
-7
-8
+0 :: Rewards -6.000 :: steps: 1.30 :: Time: 0.000(0.00029/step) :: Entropy : 0.000 :: Grads : [[], []]
+10 :: Rewards -66.000 :: steps: 13.00 :: Time: 0.016(0.00124/step) :: Entropy : 0.000 :: Grads : [[410.67352, 470.91428], []]
+20 :: Rewards -126.000 :: steps: 13.00 :: Time: 0.155(0.01196/step) :: Entropy : 0.000 :: Grads : [[9.490801, 14.207815], []]
+30 :: Rewards -186.000 :: steps: 13.00 :: Time: 0.204(0.01572/step) :: Entropy : 0.000 :: Grads : [[4.0633583, 10.041963], []]
+40 :: Rewards -246.000 :: steps: 13.00 :: Time: 0.204(0.01566/step) :: Entropy : 0.000 :: Grads : [[2.408627, 3.9150438], []]
+50 :: Rewards -306.000 :: steps: 13.00 :: Time: 0.206(0.01583/step) :: Entropy : 0.000 :: Grads : [[1.90672, 1.1145163], []]
+60 :: Rewards -366.000 :: steps: 13.00 :: Time: 0.209(0.01611/step) :: Entropy : 0.000 :: Grads : [[0.31963992, 0.8723646], []]
+70 :: Rewards -426.000 :: steps: 13.00 :: Time: 0.211(0.01627/step) :: Entropy : 0.000 :: Grads : [[3.0557172, 4.399288], []]
+80 :: Rewards -486.000 :: steps: 13.00 :: Time: 0.219(0.01682/step) :: Entropy : 0.000 :: Grads : [[0.19666141, 0.3273385], []]
+90 :: Rewards -546.000 :: steps: 13.00 :: Time: 0.226(0.01741/step) :: Entropy : 0.000 :: Grads : [[0.5642214, 1.968941], []]
+100 :: Rewards -606.000 :: steps: 13.00 :: Time: 0.228(0.01754/step) :: Entropy : 0.000 :: Grads : [[1.6037579, 4.238252], []]
+110 :: Rewards -666.000 :: steps: 13.00 :: Time: 0.230(0.01771/step) :: Entropy : 0.000 :: Grads : [[0.45303422, 1.486196], []]
+120 :: Rewards -726.000 :: steps: 13.00 :: Time: 0.233(0.01791/step) :: Entropy : 0.000 :: Grads : [[0.44123226, 1.4772025], []]
+130 :: Rewards -786.000 :: steps: 13.00 :: Time: 0.234(0.01799/step) :: Entropy : 0.000 :: Grads : [[0.40485168, 1.173223], []]
+140 :: Rewards -846.000 :: steps: 13.00 :: Time: 0.237(0.01825/step) :: Entropy : 0.000 :: Grads : [[0.62301594, 1.1873784], []]
+150 :: Rewards -906.000 :: steps: 13.00 :: Time: 0.237(0.01824/step) :: Entropy : 0.000 :: Grads : [[0.12949315, 0.20827062], []]
+160 :: Rewards -966.000 :: steps: 13.00 :: Time: 0.243(0.01867/step) :: Entropy : 0.000 :: Grads : [[2.5990171, 4.31749], []]
+170 :: Rewards -1026.000 :: steps: 13.00 :: Time: 0.245(0.01882/step) :: Entropy : 0.000 :: Grads : [[0.37117332, 0.49935895], []]
+180 :: Rewards -1086.000 :: steps: 13.00 :: Time: 0.245(0.01884/step) :: Entropy : 0.000 :: Grads : [[1.2200115, 2.3195791], []]
+190 :: Rewards -1146.000 :: steps: 13.00 :: Time: 0.250(0.01922/step) :: Entropy : 0.000 :: Grads : [[0.24071538, 0.39847142], []]
+200 :: Rewards -1206.000 :: steps: 13.00 :: Time: 0.251(0.01934/step) :: Entropy : 0.000 :: Grads : [[0.061336238, 0.1465511], []]
+210 :: Rewards -1266.000 :: steps: 13.00 :: Time: 0.255(0.01961/step) :: Entropy : 0.000 :: Grads : [[1.8092314, 2.696021], []]
+220 :: Rewards -1326.000 :: steps: 13.00 :: Time: 0.258(0.01985/step) :: Entropy : 0.000 :: Grads : [[0.34093198, 0.51217836], []]
+230 :: Rewards -1386.000 :: steps: 13.00 :: Time: 0.260(0.02003/step) :: Entropy : 0.000 :: Grads : [[0.10198665, 0.22441247], []]
+240 :: Rewards -1446.000 :: steps: 13.00 :: Time: 0.270(0.02079/step) :: Entropy : 0.000 :: Grads : [[0.026969083, 0.058802526], []]
+250 :: Rewards -1506.000 :: steps: 13.00 :: Time: 0.271(0.02084/step) :: Entropy : 0.000 :: Grads : [[0.47755513, 0.7114521], []]
+260 :: Rewards -1566.000 :: steps: 13.00 :: Time: 0.269(0.02066/step) :: Entropy : 0.000 :: Grads : [[0.15497053, 0.39969516], []]
+270 :: Rewards -1626.000 :: steps: 13.00 :: Time: 0.272(0.02092/step) :: Entropy : 0.000 :: Grads : [[0.4540344, 0.6893244], []]
+Got reward 100 in 5 steps!! 
+Got reward 100 in 6 steps!! 
+280 :: Rewards -1479.500 :: steps: 11.50 :: Time: 0.279(0.02427/step) :: Entropy : 0.000 :: Grads : [[1.6861875, 2.4022005], []]
+290 :: Rewards -1539.500 :: steps: 13.00 :: Time: 0.287(0.02210/step) :: Entropy : 0.000 :: Grads : [[0.15838417, 0.37620518], []]
+300 :: Rewards -1599.500 :: steps: 13.00 :: Time: 0.288(0.02217/step) :: Entropy : 0.000 :: Grads : [[0.31232452, 0.8153306], []]
+310 :: Rewards -1659.500 :: steps: 13.00 :: Time: 0.292(0.02244/step) :: Entropy : 0.000 :: Grads : [[0.40397128, 0.9095856], []]
+320 :: Rewards -1719.500 :: steps: 13.00 :: Time: 0.290(0.02233/step) :: Entropy : 0.000 :: Grads : [[0.5032414, 1.1752033], []]
+330 :: Rewards -1779.500 :: steps: 13.00 :: Time: 0.294(0.02265/step) :: Entropy : 0.000 :: Grads : [[0.093187146, 0.077939644], []]
+340 :: Rewards -1839.500 :: steps: 13.00 :: Time: 0.298(0.02293/step) :: Entropy : 0.000 :: Grads : [[0.45811316, 0.90358996], []]
+350 :: Rewards -1899.500 :: steps: 13.00 :: Time: 0.299(0.02303/step) :: Entropy : 0.000 :: Grads : [[0.31535947, 0.6988193], []]
+360 :: Rewards -1959.500 :: steps: 13.00 :: Time: 0.301(0.02313/step) :: Entropy : 0.000 :: Grads : [[1.1780875, 2.3194466], []]
+370 :: Rewards -2019.500 :: steps: 13.00 :: Time: 0.302(0.02320/step) :: Entropy : 0.000 :: Grads : [[0.35954064, 0.73442006], []]
+380 :: Rewards -2079.500 :: steps: 13.00 :: Time: 0.304(0.02337/step) :: Entropy : 0.000 :: Grads : [[1.6905582, 2.8727722], []]
+390 :: Rewards -2139.500 :: steps: 13.00 :: Time: 0.308(0.02368/step) :: Entropy : 0.000 :: Grads : [[0.41283703, 1.1187389], []]
+400 :: Rewards -2199.500 :: steps: 13.00 :: Time: 0.310(0.02388/step) :: Entropy : 0.000 :: Grads : [[0.8890592, 2.019565], []]
+410 :: Rewards -2259.500 :: steps: 13.00 :: Time: 0.314(0.02412/step) :: Entropy : 0.000 :: Grads : [[1.4419686, 3.39468], []]
+420 :: Rewards -2319.500 :: steps: 13.00 :: Time: 0.375(0.02883/step) :: Entropy : 0.000 :: Grads : [[0.4816784, 1.1702186], []]
+430 :: Rewards -2379.500 :: steps: 13.00 :: Time: 0.399(0.03070/step) :: Entropy : 0.000 :: Grads : [[0.32202798, 0.8868484], []]
+440 :: Rewards -2439.500 :: steps: 13.00 :: Time: 0.401(0.03084/step) :: Entropy : 0.000 :: Grads : [[0.16075613, 0.32553178], []]
+450 :: Rewards -2499.500 :: steps: 13.00 :: Time: 0.397(0.03051/step) :: Entropy : 0.000 :: Grads : [[0.12843278, 0.243983], []]
+460 :: Rewards -2559.500 :: steps: 13.00 :: Time: 0.397(0.03053/step) :: Entropy : 0.000 :: Grads : [[0.23594366, 0.5092152], []]
+470 :: Rewards -2619.500 :: steps: 13.00 :: Time: 0.402(0.03095/step) :: Entropy : 0.000 :: Grads : [[0.24898389, 0.64690506], []]
+480 :: Rewards -2679.500 :: steps: 13.00 :: Time: 0.405(0.03115/step) :: Entropy : 0.000 :: Grads : [[0.6489261, 1.3654275], []]
+490 :: Rewards -2739.500 :: steps: 13.00 :: Time: 0.407(0.03133/step) :: Entropy : 0.000 :: Grads : [[0.19960046, 0.44070187], []]
+500 :: Rewards -2799.500 :: steps: 13.00 :: Time: 0.410(0.03154/step) :: Entropy : 0.000 :: Grads : [[0.61334705, 1.2103088], []]
+510 :: Rewards -2859.500 :: steps: 13.00 :: Time: 0.413(0.03175/step) :: Entropy : 0.000 :: Grads : [[0.26528504, 0.6385518], []]
+520 :: Rewards -2919.500 :: steps: 13.00 :: Time: 0.418(0.03218/step) :: Entropy : 0.000 :: Grads : [[0.08692065, 0.29947686], []]
+530 :: Rewards -2979.500 :: steps: 13.00 :: Time: 0.420(0.03232/step) :: Entropy : 0.000 :: Grads : [[0.6980205, 1.3870423], []]
+540 :: Rewards -3039.500 :: steps: 13.00 :: Time: 0.407(0.03129/step) :: Entropy : 0.000 :: Grads : [[0.547624, 1.3609784], []]
+550 :: Rewards -3099.500 :: steps: 13.00 :: Time: 0.343(0.02637/step) :: Entropy : 0.000 :: Grads : [[0.37580115, 0.93871343], []]
+560 :: Rewards -3159.500 :: steps: 13.00 :: Time: 0.354(0.02721/step) :: Entropy : 0.000 :: Grads : [[0.82908624, 2.2004564], []]
+570 :: Rewards -3219.500 :: steps: 13.00 :: Time: 0.349(0.02683/step) :: Entropy : 0.000 :: Grads : [[0.95088005, 1.9386508], []]
+580 :: Rewards -3279.500 :: steps: 13.00 :: Time: 0.352(0.02705/step) :: Entropy : 0.000 :: Grads : [[0.71173453, 1.7380108], []]
+590 :: Rewards -3339.500 :: steps: 13.00 :: Time: 0.354(0.02726/step) :: Entropy : 0.000 :: Grads : [[0.28282544, 0.5911012], []]
+600 :: Rewards -3399.500 :: steps: 13.00 :: Time: 0.361(0.02777/step) :: Entropy : 0.000 :: Grads : [[0.3480758, 0.75340027], []]
+610 :: Rewards -3459.500 :: steps: 13.00 :: Time: 0.361(0.02780/step) :: Entropy : 0.000 :: Grads : [[0.07665066, 0.17275998], []]
+620 :: Rewards -3519.500 :: steps: 13.00 :: Time: 0.372(0.02860/step) :: Entropy : 0.000 :: Grads : [[0.03194562, 0.09159692], []]
+630 :: Rewards -3579.500 :: steps: 13.00 :: Time: 0.367(0.02821/step) :: Entropy : 0.000 :: Grads : [[0.060943164, 0.19060099], []]
+640 :: Rewards -3639.500 :: steps: 13.00 :: Time: 0.347(0.02668/step) :: Entropy : 0.000 :: Grads : [[0.07273456, 0.1619524], []]
+650 :: Rewards -3699.500 :: steps: 13.00 :: Time: 0.359(0.02762/step) :: Entropy : 0.000 :: Grads : [[0.12774014, 0.22416951], []]
+660 :: Rewards -3759.500 :: steps: 13.00 :: Time: 0.358(0.02750/step) :: Entropy : 0.000 :: Grads : [[0.13024871, 0.24622837], []]
+670 :: Rewards -3819.500 :: steps: 13.00 :: Time: 0.351(0.02697/step) :: Entropy : 0.000 :: Grads : [[0.038335647, 0.14266668], []]
+680 :: Rewards -3879.500 :: steps: 13.00 :: Time: 0.362(0.02783/step) :: Entropy : 0.000 :: Grads : [[0.082729846, 0.21974888], []]
+Got reward 100 in 5 steps!! 
+690 :: Rewards -3836.000 :: steps: 12.20 :: Time: 0.369(0.03027/step) :: Entropy : 0.000 :: Grads : [[1.3563352, 1.0978618], []]
+Got reward 100 in 4 steps!! 
+Got reward 100 in 8 steps!! 
+Got reward 100 in 4 steps!! 
+700 :: Rewards -3586.000 :: steps: 10.70 :: Time: 0.371(0.03464/step) :: Entropy : 0.000 :: Grads : [[6.2707686, 8.303], []]
+Got reward 100 in 6 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 5 steps!! 
+Got reward 100 in 8 steps!! 
+710 :: Rewards -3233.500 :: steps: 10.10 :: Time: 0.376(0.03726/step) :: Entropy : 0.000 :: Grads : [[1.3463584, 2.294273], []]
+Got reward 100 in 4 steps!! 
+Got reward 100 in 5 steps!! 
+Got reward 100 in 12 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 7 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+720 :: Rewards -2259.500 :: steps: 5.20 :: Time: 0.379(0.07290/step) :: Entropy : 0.000 :: Grads : [[5.6424017, 7.5366096], []]
+Got reward 100 in 6 steps!! 
+Got reward 100 in 8 steps!! 
+Got reward 100 in 8 steps!! 
+Got reward 100 in 7 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 5 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 6 steps!! 
+730 :: Rewards -1391.500 :: steps: 6.50 :: Time: 0.382(0.05882/step) :: Entropy : 0.000 :: Grads : [[0.79098177, 0.9434452], []]
+Got reward 100 in 5 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 6 steps!! 
+Got reward 100 in 5 steps!! 
+Got reward 100 in 7 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 10 steps!! 
+740 :: Rewards -730.000 :: steps: 8.00 :: Time: 0.380(0.04751/step) :: Entropy : 0.000 :: Grads : [[4.381332, 5.7362328], []]
+Got reward 100 in 6 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 6 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+750 :: Rewards -168.000 :: steps: 8.00 :: Time: 0.381(0.04763/step) :: Entropy : 0.000 :: Grads : [[2.5846992, 3.3695426], []]
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+760 :: Rewards 396.000 :: steps: 7.60 :: Time: 0.385(0.05062/step) :: Entropy : 0.000 :: Grads : [[0.0020283193, 0.0026354888], []]
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+770 :: Rewards 856.000 :: steps: 8.50 :: Time: 0.384(0.04516/step) :: Entropy : 0.000 :: Grads : [[5.7342957e-05, 2.8635006e-05], []]
+Got reward 100 in 4 steps!! 
+Got reward 100 in 4 steps!! 
+780 :: Rewards 1004.000 :: steps: 11.20 :: Time: 0.388(0.03463/step) :: Entropy : 0.000 :: Grads : [[0.0011970672, 0.0017465131], []]
+790 :: Rewards 944.000 :: steps: 13.00 :: Time: 0.393(0.03020/step) :: Entropy : 0.000 :: Grads : [[0.11940412, 0.5584138], []]
+800 :: Rewards 884.000 :: steps: 13.00 :: Time: 0.401(0.03085/step) :: Entropy : 0.000 :: Grads : [[0.21490955, 0.2021451], []]
+810 :: Rewards 824.000 :: steps: 13.00 :: Time: 0.403(0.03097/step) :: Entropy : 0.000 :: Grads : [[0.33525604, 0.6055604], []]
+820 :: Rewards 764.000 :: steps: 13.00 :: Time: 0.405(0.03113/step) :: Entropy : 0.000 :: Grads : [[0.11219706, 0.23814574], []]
+830 :: Rewards 704.000 :: steps: 13.00 :: Time: 0.408(0.03138/step) :: Entropy : 0.000 :: Grads : [[0.20695549, 0.23588768], []]
+840 :: Rewards 644.000 :: steps: 13.00 :: Time: 0.409(0.03143/step) :: Entropy : 0.000 :: Grads : [[0.28649813, 0.40621006], []]
+850 :: Rewards 584.000 :: steps: 13.00 :: Time: 0.408(0.03139/step) :: Entropy : 0.000 :: Grads : [[0.71261734, 1.2149963], []]
+860 :: Rewards 524.000 :: steps: 13.00 :: Time: 0.413(0.03174/step) :: Entropy : 0.000 :: Grads : [[0.068633325, 0.1392244], []]
+870 :: Rewards 464.000 :: steps: 13.00 :: Time: 0.410(0.03152/step) :: Entropy : 0.000 :: Grads : [[0.2495484, 0.31800187], []]
+880 :: Rewards 404.000 :: steps: 13.00 :: Time: 0.414(0.03186/step) :: Entropy : 0.000 :: Grads : [[0.5398067, 0.7088568], []]
+890 :: Rewards 344.000 :: steps: 13.00 :: Time: 0.415(0.03193/step) :: Entropy : 0.000 :: Grads : [[0.6813341, 0.8637393], []]
+900 :: Rewards 284.000 :: steps: 13.00 :: Time: 0.419(0.03225/step) :: Entropy : 0.000 :: Grads : [[0.7554898, 1.2670523], []]
+910 :: Rewards 224.000 :: steps: 13.00 :: Time: 0.415(0.03193/step) :: Entropy : 0.000 :: Grads : [[0.2752427, 0.3491737], []]
+920 :: Rewards 164.000 :: steps: 13.00 :: Time: 0.415(0.03192/step) :: Entropy : 0.000 :: Grads : [[0.58159775, 0.86473006], []]
+930 :: Rewards 104.000 :: steps: 13.00 :: Time: 0.420(0.03229/step) :: Entropy : 0.000 :: Grads : [[0.47677928, 0.9097376], []]
+940 :: Rewards 44.000 :: steps: 13.00 :: Time: 0.424(0.03258/step) :: Entropy : 0.000 :: Grads : [[0.5540949, 0.8535057], []]
+950 :: Rewards -16.000 :: steps: 13.00 :: Time: 0.424(0.03265/step) :: Entropy : 0.000 :: Grads : [[0.19409965, 0.3116017], []]
+960 :: Rewards -76.000 :: steps: 13.00 :: Time: 0.427(0.03286/step) :: Entropy : 0.000 :: Grads : [[0.13330808, 0.17204967], []]
+970 :: Rewards -136.000 :: steps: 13.00 :: Time: 0.427(0.03286/step) :: Entropy : 0.000 :: Grads : [[0.4773596, 0.5081576], []]
+980 :: Rewards -196.000 :: steps: 13.00 :: Time: 0.476(0.03665/step) :: Entropy : 0.000 :: Grads : [[0.21612418, 0.273439], []]
+990 :: Rewards -256.000 :: steps: 13.00 :: Time: 0.424(0.03263/step) :: Entropy : 0.000 :: Grads : [[0.21286681, 0.24148166], []]
+999 :: Rewards -310.000 :: steps: 11.70 :: Time: 0.380(0.03246/step) :: Entropy : 0.000 :: Grads : [[0.20249087, 0.29145524], []]
+Total time taken: 343.3766014575958

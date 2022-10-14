@@ -35,8 +35,12 @@ class Solver:
         action_prob_perepisode = []
 
 
-        ckpt = self.config.save_after
+        # ckpt = self.config.save_after
+        ckpt = 5
         rm_history, regret, rm, start_ep = [], 0, 0, 0
+        grad_history = []
+
+
         # if self.config.restore:
         #     returns = list(np.load(self.config.paths['results']+"rewards.npy"))
         #     rm = returns[-1]
@@ -47,7 +51,7 @@ class Solver:
         t0 = time()
         for episode in range(start_ep, self.config.max_episodes):
             # Reset both environment and model before a new episode
-            print(episode)
+            # print(episode)
             state = self.env.reset()
             self.model.reset()
 
@@ -78,6 +82,8 @@ class Solver:
             if episode%ckpt == 0 or episode == self.config.max_episodes-1:
                 rm_history.append(rm)
                 return_history.append(total_r)
+
+
                 if self.config.debug and self.config.env_name == 'NS_Reco':
                     action_prob.append(dist)
                     true_rewards.append(self.env.get_rewards())
@@ -90,6 +96,15 @@ class Solver:
 
                 t0 = time()
                 steps = 0
+        ## save image ##
+        print(grad_history)
+        plt.figure()
+        plt.title("cumulative total rewards")
+        plt.xlabel("episode")
+        plt.ylabel("rewards")
+        plt.plot(rm_history)
+        plt.savefig(self.config.paths["results"] + "CumulativeTotalRewards.png")
+        plt.close()
 
 
         if self.config.debug and self.config.env_name == 'NS_Reco':

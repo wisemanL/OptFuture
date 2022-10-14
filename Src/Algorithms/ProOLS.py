@@ -66,6 +66,7 @@ class ProOLS(Agent):
         # Inner optimization loop
         # Note: Works best with large number of iterations with small step-sizes
         for iter in range(self.config.max_inner):
+
             ################################################
             ### Algorithm1 step3 : compute PDIS gradient ###
             ###############################################
@@ -152,4 +153,3 @@ class ProOLS(Agent):
 
             self.step(loss)
 
-        print(1)
